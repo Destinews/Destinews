@@ -28,7 +28,8 @@ function fetchNews(category) {
 
                 // Create image element
                 const img = document.createElement("img");
-                img.src = news.image;
+                // img.src = news.image;
+                img.src = news.image || "default.jpg";
                 img.alt = "News Image";
                 img.classList.add("news-thumbnail"); // Added news-thumbnail class
 

@@ -8,12 +8,46 @@ const client = redis.createClient();
 const admin = require("firebase-admin");
 const rssParser = require("rss-parser");
 const serviceAccount = require('./firebase-config.json');
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
+const path = require('path');
+const contactRoutes = require('./contact');
+
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', contactRoutes);
+
 const PORT = 5000;
 
 const parser = new rssParser();
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use(limiter);
+
+// MySQL setup
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'mypass',
+  database: 'destiny_com',
+});
+
+
+
+db.connect((err) => {
+  if (err) {
+    console.error('Database connection failed:', err.stack);
+    return;
+  }
+  console.log('Connected to MySQL database.');
+});
 
 // Google News RSS Feed URLs
 const rssFeeds = {
@@ -30,24 +64,78 @@ const rssFeeds = {
 };
 
 // Fetch news from Google RSS
+// app.get("/google-news", async (req, res) => {
+//     const category = req.query.category || "General";
+//     const feedUrl = rssFeeds[category] || rssFeeds["General"];
+
+//     try {
+//         const feed = await parser.parseURL(feedUrl);
+//         const articles = feed.items.map(item => ({
+//             title: item.title,
+//             link: item.link,
+//             image: item.enclosure ? item.enclosure.url : "default.jpg" // Added image URL
+//         }));
+
+//         res.json(articles);
+//     } catch (error) {
+//         console.error("Error fetching news:", error);
+//         res.status(500).json({ error: "Failed to fetch Google News" });
+//     }
+// });
+
+
+
+
 app.get("/google-news", async (req, res) => {
     const category = req.query.category || "General";
     const feedUrl = rssFeeds[category] || rssFeeds["General"];
 
     try {
         const feed = await parser.parseURL(feedUrl);
-        const articles = feed.items.map(item => ({
-            title: item.title,
-            link: item.link,
-            image: item.enclosure ? item.enclosure.url : "default.jpg" // Added image URL
+
+        const articles = await Promise.all(feed.items.map(async (item) => {
+            let image = "default.jpg"; // fallback image
+
+            if (item.enclosure && item.enclosure.url) {
+                image = item.enclosure.url;
+            } else {
+                try {
+                    const { data } = await axios.get(item.link, {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/91.0 Safari/537.36'
+                        }
+                    });
+
+                    const $ = cheerio.load(data);
+
+                    // Try to get image from og:image or twitter:image
+                    const ogImage = $('meta[property="og:image"]').attr("content") ||
+                                    $('meta[name="twitter:image"]').attr("content");
+
+                    if (ogImage && ogImage.startsWith("http")) {
+                        image = ogImage;
+                    }
+
+                } catch (err) {
+                    console.warn(`Image scraping failed for ${item.link}: ${err.message}`);
+                }
+            }
+
+            return {
+                title: item.title,
+                link: item.link,
+                image
+            };
         }));
 
         res.json(articles);
     } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching Google News:", error);
         res.status(500).json({ error: "Failed to fetch Google News" });
     }
 });
+
+
 
 const BASE_URL = "https://theprint.in/";
 
@@ -87,12 +175,23 @@ app.post("/login", async (req, res) => {
     }
 });
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // Limit each IP to 100 requests per window
-});
-
-app.use(limiter);
+app.post('/submit-contact', (req, res) => {
+    const { name, email, message } = req.body;
+  
+    if (!name || !email || !message) {
+      return res.status(400).send('All fields are required.');
+    }
+  
+    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+    db.query(query, [name, email, message], (err, results) => {
+      if (err) {
+        console.error('Error inserting data:', err);
+        return res.status(500).send('Something went wrong. Please try again.');
+      }
+  
+      res.send(`<script>alert("Message sent successfully!"); window.location.href="/";</script>`);
+    });
+  });
 
 app.get("/news", async (req, res) => {
     try {
@@ -195,3 +294,4 @@ admin.auth().deleteUser('EFfc6Ls4LQdf9USvZJfAxwiN4dS2')
     .catch(error => {
         console.error('Error deleting user:', error);
     });
+
