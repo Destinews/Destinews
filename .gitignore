@@ -1,0 +1,8 @@
+# Ignore WordPress core files
+ wp-admin/
+ wp-includes/
+ # Ignore uploaded files
+ wp-content/uploads/
+ # Ignore system files
+ .DS_Store
+ Thumbs.db
