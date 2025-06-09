@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Destiny Fashion</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/styles.css" />
+</head>
+<body class="bg-black text-warning">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Destiny Fashion</a>
+    <a class="navbar-brand" href="index.html">Home</a>
+    <a class="navbar-brand" href="index.html#gallery">Products</a>
+    <a class="navbar-brand" href="index.html#about">About Us</a>
+    <a class="navbar-brand" href="javascript:void(0)" onclick="openCart()">Cart
+      <span id="cartCountBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+    </a>
+    <a class="navbar-brand" href="index.html#contact">Contact Us</a>
+    <a class="navbar-brand" href="login.html">LOGOUT</a>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <h2 class="mb-4 text-center">🧾 Checkout & Payment</h2>
+  <form id="checkoutForm">
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card p-4">
+          <h4>📍 Delivery Address</h4>
+          <input type="text" class="form-control mb-3" id="fullName" placeholder="Full Name" required>
+          <input type="text" class="form-control mb-3" id="mobile" placeholder="Mobile Number" required>
+          <textarea class="form-control mb-3" id="address" placeholder="Full Address" rows="3" required></textarea>
+          <input type="text" class="form-control mb-3" id="pincode" placeholder="Pincode" required>
+          <input type="text" class="form-control mb-3" id="city" placeholder="City" required>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <div class="card p-4">
+          <h4>💳 Payment Method</h4>
+          <select class="form-select mb-3" id="paymentMethod" required>
+            <option value="">Choose Payment Option</option>
+            <option value="phonepe">UPI - PhonePe</option>
+            <option value="gpay">UPI - Google Pay</option>
+            <option value="netbanking">Net Banking</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+
+          <h5 class="mt-4">🛍 Order Summary</h5>
+          <ul class="list-group mb-3" id="orderSummary">
+            <li class="list-group-item">Your cart is empty.</li>
+          </ul>
+          <div class="text-end">
+            <strong>Total: ₹<span id="totalAmount">0</span></strong>
+            <!-- Delivery Date Estimator -->
+            <p id="deliveryEstimate" class="mt-2 text-warning fw-bold text-end" style="display:none;"></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-3 w-100">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Order History Section -->
+  <div id="orderHistorySection" class="mt-5">
+    <h3 class="text-center mb-4">📦 Order History</h3>
+    <div class="accordion" id="orderHistoryAccordion"></div>
+  </div>
+</div>
+
+<!-- Smart Order Tracker -->
+<div id="smartTracker" class="text-center text-warning mt-5" style="display:none;">
+  <h4>🚚 Order Tracker</h4>
+  <div id="trackerStages" class="mt-3 fs-5 fw-bold"></div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+  <p>Contact: info@destinyfashion.in | © 2025 Destiny Fashion</p>
+</footer>
+
+<!-- Scroll to Top Button -->
+<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let total = 0;
+
+function renderOrderSummary() {
+  const orderSummary = document.getElementById('orderSummary');
+  const totalAmount = document.getElementById('totalAmount');
+  orderSummary.innerHTML = '';
+  total = 0;
+
+  if (cart.length === 0) {
+    orderSummary.innerHTML = '<li class="list-group-item">Your cart is empty.</li>';
+    totalAmount.textContent = '0';
+    return;
+  }
+
+  cart.forEach(item => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.textContent = `${item.name} - ₹${item.price}`;
+    orderSummary.appendChild(li);
+    total += item.price;
+  });
+
+  totalAmount.textContent = total;
+  document.getElementById('cartCountBadge').textContent = cart.length;
+}
+
+function renderOrderHistory() {
+  const container = document.getElementById('orderHistoryAccordion');
+  container.innerHTML = '';
+  const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+  if (orderHistory.length === 0) {
+    container.innerHTML = '<p class="text-warning">No orders placed yet.</p>';
+    return;
+  }
+
+  orderHistory.reverse().forEach((order, index) => {
+    const date = new Date(order.timestamp).toLocaleString();
+    const itemsHtml = order.items.map(i => `<li>${i.name} - ₹${i.price}</li>`).join('');
+
+    const card = document.createElement('div');
+    card.className = 'accordion-item bg-dark text-warning';
+    card.innerHTML = `
+      <h2 class="accordion-header" id="heading${index}">
+        <button class="accordion-button collapsed bg-warning text-black" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+          Order #${orderHistory.length - index} - ${date}
+        </button>
+      </h2>
+      <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#orderHistoryAccordion">
+        <div class="accordion-body">
+          <strong>Name:</strong> ${order.fullName}<br>
+          <strong>Mobile:</strong> ${order.mobile}<br>
+          <strong>Address:</strong> ${order.address}, ${order.city}, ${order.pincode}<br>
+          <strong>Payment:</strong> ${order.paymentMethod.toUpperCase()}<br>
+          <strong>Total:</strong> ₹${order.total}<br>
+          <strong>Items:</strong>
+          <ul>${itemsHtml}</ul>
+          <button class="btn btn-sm btn-danger mt-2" onclick="cancelOrder(${orderHistory.length - 1 - index})">Cancel Order</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function cancelOrder(index) {
+  const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+  if (confirm('Are you sure you want to cancel this order?')) {
+    orderHistory.splice(index, 1);
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+    renderOrderHistory();
+  }
+}
+
+renderOrderSummary();
+renderOrderHistory();
+
+function openCart() {
+  alert("Cart is only editable on product page.");
+}
+
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const fullName = document.getElementById('fullName').value;
+  const mobile = document.getElementById('mobile').value;
+  const address = document.getElementById('address').value;
+  const pincode = document.getElementById('pincode').value;
+  const city = document.getElementById('city').value;
+  const paymentMethod = document.getElementById('paymentMethod').value;
+
+  if (!paymentMethod) {
+    alert("Please select a payment method.");
+    return;
+  }
+
+  const newOrder = {
+    fullName,
+    mobile,
+    address,
+    pincode,
+    city,
+    paymentMethod,
+    total,
+    items: [...cart],
+    timestamp: Date.now()
+  };
+
+  const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+  orderHistory.push(newOrder);
+  localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+  alert(`✅ Order placed successfully!\nPayment Mode: ${paymentMethod.toUpperCase()}`);
+
+  cart = [];
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderOrderSummary();
+  renderOrderHistory();
+  document.getElementById('checkoutForm').reset();
+});
+</script>
+<script>
+  function startOrderTracking() {
+  const tracker = document.getElementById('smartTracker');
+  const stages = document.getElementById('trackerStages');
+  const emojis = ["📦 Packed", "🚚 In Transit", "📬 Delivering to destination"];
+  let index = 0;
+
+  tracker.style.display = "block";
+  stages.textContent = "";
+
+  const interval = setInterval(() => {
+    stages.innerHTML += `<div>${emojis[index]}</div>`;
+    index++;
+    if (index === emojis.length) clearInterval(interval);
+  }, 10000);
+}
+
+// Hook into the form submission success (already exists)
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+  setTimeout(() => {
+    startOrderTracking();  // Starts tracker after order is saved
+  }, 500);
+});
+function getEstimatedDeliveryDate() {
+  const estimateEl = document.getElementById("deliveryEstimate");
+  if (!estimateEl) return;
+
+  // Default to 3–5 days from today
+  const today = new Date();
+  const deliveryStart = new Date(today);
+  const deliveryEnd = new Date(today);
+  deliveryStart.setDate(today.getDate() + 3);
+  deliveryEnd.setDate(today.getDate() + 5);
+
+  const options = { month: 'long', day: 'numeric' };
+
+  fetch("https://ipapi.co/json/")
+    .then(res => res.json())
+    .then(data => {
+      const city = data.city || "your area";
+      estimateEl.innerHTML = `📅 Estimated Delivery: <strong>${deliveryStart.toLocaleDateString(undefined, options)} – ${deliveryEnd.toLocaleDateString(undefined, options)} in ${city}</strong>`;
+      estimateEl.style.display = "block";
+    })
+    .catch(() => {
+      estimateEl.innerHTML = `📅 Estimated Delivery: <strong>${deliveryStart.toLocaleDateString(undefined, options)} – ${deliveryEnd.toLocaleDateString(undefined, options)}</strong>`;
+      estimateEl.style.display = "block";
+    });
+}
+
+getEstimatedDeliveryDate();
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

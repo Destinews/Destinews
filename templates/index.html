@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Destiny Fashion - Categories</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/styles.css" />
+</head>
+<body class="bg-black text-warning">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Destiny Fashion</a>
+    <a class="navbar-brand" href="#">Home</a>
+    <a class="navbar-brand" href="#gallery">products</a>
+    <a class="navbar-brand" href="#about">About_us</a>
+    <a class="navbar-brand position-relative" href="javascript:void(0)" onclick="openCart()">Cart
+  <span id="cartCountBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span></a>
+    <a class="navbar-brand" href="#contact">Contact_us</a>
+    <a class="navbar-brand" href="./login.html">LOGOUT</a>
+  </div>
+</nav>
+
+<!-- Welcome & Location Greeting -->
+<div id="userGreeting" class="alert alert-warning text-dark text-center fw-bold" style="display: none;"></div>
+
+<!-- Marquee Category Display -->
+<section class="category-marquee py-2">
+  <div class="category-slider">
+    <div class="category-slide">Caps</div>
+    <div class="category-slide">Mugs</div>
+    <div class="category-slide">Hoodies</div>
+    <div class="category-slide">XL T-Shirts</div>
+    <div class="category-slide">Shirts</div>
+    <div class="category-slide">Shoes</div>
+    <div class="category-slide">Watches</div>
+    <div class="category-slide">Neck Chain + Bracelet</div>
+  </div>
+</section>
+
+<!-- Hero Banner -->
+<section class="hero-section d-flex align-items-center justify-content-center text-white text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Design Your Destiny</h1>
+    <p class="lead">Premium Custom T-Shirts | Unique Fashion | Made with Passion</p>
+    <a href="#gallery" class="btn btn-light btn-lg mt-3">Explore Designs</a>
+  </div>
+</section>
+
+<!-- Gallery and Filter -->
+<section id="gallery" class="py-5 text-center">
+  <div class="container">
+    <h2 class="mb-4">Our Fashion Categories</h2>
+    <div class="mb-4">
+      <label for="mySelect">Choose an option:</label>
+      <select id="mySelect" name="options">
+        <option value="all">All Categories</option>
+        <option value="Caps">Caps</option>
+        <option value="Mugs">Mugs</option>
+        <option value="Hoodies">Hoodies</option>
+        <option value="XL T-Shirts">XL T-Shirts</option>
+        <option value="Shirts">Shirts</option>
+        <option value="Shoes">Shoes</option>
+        <option value="Watches">Watches</option>
+        <option value="Neck Chain + Bracelet">Neck Chain + Bracelet</option>
+        <option value="T-dress">Traditional dress</option>
+        <option value="T-jewel">Traditional Jewelery</option>
+        <option value="F-jewel">Formal Jewelery</option>
+        <option value="kurta">Formal kurta</option>
+      </select>
+    </div>
+
+    <!-- Products Grid - ADD YOUR PRODUCTS HERE -->
+    <div class="row g-4">
+      <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Caps">
+        <div class="category-card" style="background-image: url('../static/asset/categories/cap1.jpg');">
+          <div class="overlay">
+            Cap<br>
+            <span>₹199</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Caps" data-price="199">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Caps", price: 199})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Caps" data-price="199">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Mugs">
+        <div class="category-card" style="background-image: url('../static/asset/categories/mug1.jpg');">
+          <div class="overlay">
+            Mug<br>
+            <span>₹299</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Mugs" data-price="299">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Mugs", price: 299})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Mugs" data-price="299">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Hoodies">
+        <div class="category-card" style="background-image: url('../static/asset/categories/hoodie1.jpg');">
+          <div class="overlay">
+            Hoodie<br>
+            <span>₹499</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Hoodies" data-price="449">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Hoodies", price: 499})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Hoodies" data-price="449">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="XL T-Shirts">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-shirt1.jpg');">
+          <div class="overlay">
+            T-shirt<br>
+            <span>₹299</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="XL T-Shirts" data-price="299">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "XL T-Shirts", price: 299})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="XL T-Shirts" data-price="299">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Caps">
+        <div class="category-card" style="background-image: url('../static/asset/categories/cap2.jpg');">
+          <div class="overlay">
+            Cap<br>
+            <span>₹199</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Caps" data-price="199">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Caps", price: 199})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Caps" data-price="199">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Mugs">
+        <div class="category-card" style="background-image: url('../static/asset/categories/mug2.jpg');">
+          <div class="overlay">
+            Mug<br>
+            <span>₹299</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Mugs" data-price="299">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Mugs", price: 299})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Mugs" data-price="299">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Hoodies">
+        <div class="category-card" style="background-image: url('../static/asset/categories/hoodie2.jpg');">
+          <div class="overlay">
+            Hoodie<br>
+            <span>₹499</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Hoodies" data-price="449">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Hoodies", price: 499})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Hoodies" data-price="449">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="XL T-Shirts">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-shirt2.jpg');">
+          <div class="overlay">
+            T-shirt<br>
+            <span>₹299</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="XL T-Shirts" data-price="299">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "XL T-Shirts", price: 299})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="XL T-Shirts" data-price="299">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Shirts">
+        <div class="category-card" style="background-image: url('../static/asset/categories/shirt1.jpg');">
+          <div class="overlay">
+            Shirt<br>
+            <span>₹249</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Shirts" data-price="249">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Shirts", price: 249})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Shirts" data-price="249">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Shoes">
+        <div class="category-card" style="background-image: url('../static/asset/categories/shoe1.jpg');">
+          <div class="overlay">
+            Formal Shoes<br>
+            <span>₹499</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Shoes" data-price="499">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Shoes", price: 499})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Shoes" data-price="499">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Watches">
+        <div class="category-card" style="background-image: url('../static/asset/categories/watch1.jpg');">
+          <div class="overlay">
+            Stylish Watch<br>
+            <span>₹799</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Watches" data-price="799">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Watches", price: 799})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Watches" data-price="799">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Neck Chain + Bracelet">
+        <div class="category-card" style="background-image: url('../static/asset/categories/jewel1.jpg');">
+          <div class="overlay">
+            Neck Chain<br>
+            <span>₹999</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Neck Chain + Bracelet" data-price="999">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Neck Chain + Bracelet", price: 999})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Neck Chain + Bracelet" data-price="999">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+             <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Shirts">
+        <div class="category-card" style="background-image: url('../static/asset/categories/shirt2.jpg');">
+          <div class="overlay">
+            Shirt<br>
+            <span>₹249</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Shirts" data-price="249">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Shirts", price: 249})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Shirts" data-price="249">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Shoes">
+        <div class="category-card" style="background-image: url('../static/asset/categories/shoe2.jpg');">
+          <div class="overlay">
+            Formal Shoes<br>
+            <span>₹499</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Shoes" data-price="499">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Shoes", price: 499})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Shoes" data-price="499">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Watches">
+        <div class="category-card" style="background-image: url('../static/asset/categories/watch2.jpg');">
+          <div class="overlay">
+            Stylish Watch<br>
+            <span>₹799</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Watches" data-price="799">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Watches", price: 799})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Watches" data-price="799">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="Neck Chain + Bracelet">
+        <div class="category-card" style="background-image: url('../static/asset/categories/jewel2.jpg');">
+          <div class="overlay">
+            Bracelet<br>
+            <span>₹999</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="Neck Chain + Bracelet" data-price="999">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "Neck Chain + Bracelet", price: 999})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="Neck Chain + Bracelet" data-price="999">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="T-dress">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-dress1.jpg');">
+          <div class="overlay">
+            Traditional Women Wear<br>
+            <span>₹899</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="T-dress" data-price="899">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "T-dress", price: 899})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="T-dress" data-price="899">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="T-jewel">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-jewel1.jpg');">
+          <div class="overlay">
+            Traditional Jewelery<br>
+            <span>₹999</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="T-jewel" data-price="999">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "T-jewel", price: 999})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="T-jewel" data-price="999">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="F-jewel">
+        <div class="category-card" style="background-image: url('../static/asset/categories/F-jewel1.jpg');">
+          <div class="overlay">
+            Formal Jewelery<br>
+            <span>₹1199</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="F-jewel" data-price="1199">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "F-jewel", price: 1199})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="F-jewel" data-price="1199">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="kurta">
+        <div class="category-card" style="background-image: url('../static/asset/categories/kurta1.jpg');">
+          <div class="overlay">
+            Formal kurta<br>
+            <span>₹399</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="kurta" data-price="399">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "kurta", price: 399})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="kurta" data-price="399">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="T-dress">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-dress2.jpg');">
+          <div class="overlay">
+            Traditional Women Wear<br>
+            <span>₹899</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="T-dress" data-price="899">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "T-dress", price: 899})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="T-dress" data-price="899">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="T-jewel">
+        <div class="category-card" style="background-image: url('../static/asset/categories/T-jewel2.jpg');">
+          <div class="overlay">
+            Traditional Jewelery<br>
+            <span>₹999</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="T-jewel" data-price="999">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "T-jewel", price: 999})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="T-jewel" data-price="999">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="F-jewel">
+        <div class="category-card" style="background-image: url('../static/asset/categories/F-jewel2.jpg');">
+          <div class="overlay">
+            Formal Jewelery<br>
+            <span>₹1199</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="F-jewel" data-price="1199">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "F-jewel", price: 1199})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="F-jewel" data-price="1199">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+            <!-- Example Product -->
+      <div class="col-md-3 col-sm-6 product-card" data-category="kurta">
+        <div class="category-card" style="background-image: url('../static/asset/categories/kurta2.jpg');">
+          <div class="overlay">
+            Formal kurta<br>
+            <span>₹399</span><br>
+            <button class="btn btn-warning btn-sm mt-2 add-to-cart" data-name="kurta" data-price="399">Add to Cart</button>
+            <button class="btn btn-outline-light btn-sm mt-2" onclick='toggleWishlist({name: "kurta", price: 399})'>♡ Wishlist</button>
+            <button class="btn btn-success btn-sm mt-2 customize-btn" data-name="kurta" data-price="399">Customize & Buy</button>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</section>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-btn" title="Close cart" onclick="closeCart()">&times;</span>
+    <h3 class="text-center text-warning">🛒 Your Cart</h3>
+    <ul id="cart-items" class="list-group my-3"></ul>
+    <h5 class="text-end text-white">Total: ₹<span id="cart-total">0</span></h5>
+    <div class="text-end mt-3">
+      <a href="payment.html" class="btn btn-primary">Proceed to Payment</a>
+    </div>
+  </div>
+</div>
+
+<!-- Customization Modal -->
+<div id="customModal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeCustomModal()">&times;</span>
+    <h4 class="text-center text-warning">Upload Your Design</h4>
+    <input type="file" placeholder="Upload your design" id="customFile" accept="image/*" class="form-control mb-3" />
+    <div class="text-center">
+      <img id="previewDesign" src="#" alt="Design Preview" style="max-width:200px; display:none;" class="img-thumbnail mb-3" />
+      <button class="btn btn-success" id="addCustomBtn" onclick="addCustomProduct()" disabled>Add to Cart with Design</button>
+    </div>
+  </div>
+</div>
+
+<!-- About Us -->
+<section id="about" class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="mb-3">About Destiny Fashion</h2>
+    <p>We are a modern fashion brand specializing in uniquely designed, custom-made T-shirts. Every piece is crafted in-house with quality fabrics and bold designs that reflect your personality.</p>
+  </div>
+</section>
+
+
+<!-- Testimonials Carousel -->
+<section class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="mb-4">What Our Customers Say</h2>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <p class="carousel-text">"Amazing quality and fast delivery! I love the design and fabric." – Ayesha M.</p>
+        </div>
+        <div class="carousel-item">
+          <p class="carousel-text">"The hoodie was exactly what I wanted. Will buy again!" – Rahul K.</p>
+        </div>
+        <div class="carousel-item">
+          <p class="carousel-text">"Creative designs and smooth customer service." – Neha S.</p>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Get in Touch</h2>
+    <form action="/contact" method="POST" class="row g-3">
+      <div class="col-md-6">
+        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+      </div>
+      <div class="col-md-6">
+        <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+      </div>
+      <div class="col-12">
+        <textarea name="message" rows="5" class="form-control" placeholder="Your Message" required></textarea>
+      </div>
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary px-4">Send Message</button>
+      </div>
+      <input type="hidden" name="_redirect" value="https://yourdomain.com/thank-you.html">
+    </form>
+  </div>
+</section>
+
+<!-- Product Search -->
+<div class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3">
+  <input type="text" id="productSearch" class="form-control w-auto" placeholder="Search products...">
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast position-fixed bottom-0 end-0 m-3 text-bg-success" role="alert" style="display:none;">
+  <div class="toast-body">✔ Product added to cart!</div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+  <p>Contact: info@destinyfashion.in | © 2025 Destiny Fashion</p>
+</footer>
+
+<!-- Category Image Setup -->
+<script>
+const categoryImages = {
+  Caps: ['cap1.jpg', 'cap2.jpg'],
+  Mugs: ['mug1.jpg', 'mug2.jpg'],
+  Hoodies: ['hoodie1.jpg', 'hoodie2.jpg'],
+  'XL T-Shirts': ['T-shirt1.jpg', 'T-shirt2.jpg'],
+  Shirts: ['shirt1.jpg', 'shirt2.jpg'],
+  Shoes: ['shoe1.jpg', 'shoe2.jpg'],
+  Watches: ['watch1.jpg', 'watch2.jpg'],
+  'Neck Chain + Bracelet': ['jewel1.jpg', 'jewel2.jpg']
+};
+
+document.querySelectorAll('.category-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const category = card.innerText.trim();
+    openCategoryModal(category);
+  });
+});
+
+function openCategoryModal(category) {
+  const modal = document.getElementById('categoryModal');
+  const title = document.getElementById('modalTitle');
+  const wrapper = document.getElementById('modalCarouselWrapper');
+
+  title.innerText = category;
+
+  if (categoryImages[category]) {
+    const images = categoryImages[category];
+    let inner = '';
+    images.forEach((img, index) => {
+      inner += `
+        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+          <img src="../static/asset/categories/${img}" class="d-block w-100 rounded" alt="${category}" />
+        </div>`;
+    });
+
+    wrapper.innerHTML = `
+      <div id="modalCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">${inner}</div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#modalCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#modalCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    `;
+  } else {
+    wrapper.innerHTML = '<p>No images available.</p>';
+  }
+
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('categoryModal').style.display = 'none';
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/script.js"></script>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/919999999999" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" />
+</a>
+
+<!-- Scroll to Top Button -->
+<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+
+<!-- Spin to Win Button -->
+<button id="spinTrigger" class="spin-trigger">🎁 Spin & Win</button>
+
+<!-- Spin Modal -->
+<div id="spinModal" class="modal-overlay">
+  <div class="modal-content text-center text-warning">
+    <span class="close-btn" onclick="document.getElementById('spinModal').style.display='none'">×</span>
+    <h4>🎉 Try Your Luck!</h4>
+    <canvas id="wheelCanvas" width="300" height="300" style="margin: 20px auto; display:block;"></canvas>
+    <button class="btn btn-warning mt-3" id="spinBtn">SPIN</button>
+    <p id="spinResult" class="mt-3 fw-bold"></p>
+  </div>
+</div>
+
+</body>
+</html>
